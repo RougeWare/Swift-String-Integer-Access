@@ -14,7 +14,6 @@ public extension String {
     ///
     /// - Parameter characterIndex: The index of a character in this string
     /// - Returns: An index offset by `characterIndex` from the start of the string
-
     @inline(__always)
     func index(_ characterIndex: Int) -> Index {
         self.index(startIndex, offsetBy: characterIndex)
