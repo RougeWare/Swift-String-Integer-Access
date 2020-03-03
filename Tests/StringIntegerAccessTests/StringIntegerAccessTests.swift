@@ -27,9 +27,38 @@ final class StringIntegerAccessTests: XCTestCase {
     }
     
 
+    func testGetSubstringWithIntPartialRangeFromSubscript() {
+        XCTAssertEqual("Hello, World!"[0...], "Hello, World!")
+        XCTAssertEqual("Hello, World!"[1...], "ello, World!")
+        XCTAssertEqual("Hello, World!"[11...], "d!")
+        XCTAssertEqual("Hello, World!"[11...], "d!")
+        XCTAssertEqual("Hello, World!"[12...], "!")
+        XCTAssertEqual("Hello, World!"[13...], "")
+    }
+    
+    
+    func testGetSubstringWithIntPartialRangeUpToSubscript() {
+        XCTAssertEqual("Hello, World!"[..<1], "H")
+        XCTAssertEqual("Hello, World!"[..<5], "Hello")
+        XCTAssertEqual("Hello, World!"[..<12], "Hello, World")
+        XCTAssertEqual("Hello, World!"[..<12], "Hello, World")
+        XCTAssertEqual("Hello, World!"[..<13], "Hello, World!")
+    }
+    
+    
+    func testGetSubstringWithIntPartialRangeUpThroughSubscript() {
+        XCTAssertEqual("Hello, World!"[...1], "He")
+        XCTAssertEqual("Hello, World!"[...5], "Hello,")
+        XCTAssertEqual("Hello, World!"[...12], "Hello, World!")
+        XCTAssertEqual("Hello, World!"[...12], "Hello, World!")
+    }
+    
+
     static var allTests = [
         ("testGetCharacterWithIntSubscript", testGetCharacterWithIntSubscript),
         ("testGetSubstringWithIntClosedRangeSubscript", testGetSubstringWithIntClosedRangeSubscript),
         ("testGetSubstringWithIntRangeSubscript", testGetSubstringWithIntRangeSubscript),
+        ("testGetSubstringWithIntPartialRangeFromSubscript", testGetSubstringWithIntPartialRangeFromSubscript),
+        ("testGetSubstringWithIntPartialRangeUpThroughSubscript", testGetSubstringWithIntPartialRangeUpThroughSubscript),
     ]
 }
