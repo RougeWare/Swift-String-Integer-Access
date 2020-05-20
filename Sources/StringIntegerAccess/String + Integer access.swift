@@ -127,3 +127,45 @@ public extension StringProtocol {
         self[PartialRangeThrough(index(range.upperBound))]
     }
 }
+
+
+
+#if canImport(ObjectiveC) // NSRange seems to only exist on platforms where there's Obj-C
+import Foundation
+
+
+
+public extension StringProtocol {
+    
+    /// Allows you to subscript a string with a `NSRange`
+    ///
+    /// These are equivalent:
+    /// ```
+    /// let mySubstring: Substring?
+    /// if range.length >= 0,
+    ///     let range = Range(nsRange, in: myString)
+    /// {
+    ///     mySubstring = myString[range]
+    /// }
+    /// else {
+    ///     mySubstring = nil
+    /// }
+    /// ```
+    /// ```
+    /// let mySubstring = myString[nsRange]
+    /// ```
+    ///
+    /// - Parameter range: A range of valid indices of characters in the string. `location` must be less than `count`
+    ///                    (exclusive), and `length` must be less than `count` (inclusive). If `length` is longer than
+    ///                    `count`, or if `location` pushes the upper bound outside this string, or if `length` is
+    ///                    negative, this returns `nil`.
+    /// - Returns: The characters at the given index-range in this string
+    @inlinable
+    @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+    subscript(_ range: NSRange) -> SubSequence? {
+        return range.length < 0
+            ? nil
+            : Range(range, in: self).map { self[$0] }
+    }
+}
+#endif
