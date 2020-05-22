@@ -17,9 +17,9 @@ someString[2...5]
 
 ## Safety ##
 
-If you prefer, you can also have the peace-of-mind that whatever integers you pass, it won't crash! Starting in version `1.3.0`, you can now use `[orNil:]` subscripts, which will return the same values as the regular ones, but if you give them out-of-range indices, they return `nil` instead of crashing: 
+If you prefer, you can also have the peace-of-mind that whatever integers you pass, it won't crash! Starting in version `2.0.0`, you can now use `[orNil:]` subscripts, which will return the same values as the regular ones, but if you give them out-of-range indices, they return `nil` instead of crashing: 
 
-```
+```swift
 import SafeStringIntegerAccess
 
 let someString = "Hello, World!"
