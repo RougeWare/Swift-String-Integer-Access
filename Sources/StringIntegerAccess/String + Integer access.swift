@@ -26,6 +26,22 @@ public extension StringProtocol {
     }
     
     
+    /// Simple sugar for `myString.index(before: myString.index(myString.startIndex, offsetBy: characterIndex))`
+    ///
+    /// These are equivalent:
+    /// ```
+    /// myString.index(before: myString.index(myString.startIndex, offsetBy: characterIndex))
+    /// myString.index(before: characterIndex)
+    /// ```
+    ///
+    /// - Parameter characterOffset: The index after a character in this string, as an offset from the first index
+    /// - Returns: An index offset by `characterIndex` from the start of the string
+    @inline(__always)
+    func index(before characterOffset: Int) -> Index {
+        self.index(before: self.index(characterOffset))
+    }
+    
+    
     /// Simply sugar for `myString[myString.index(myString.startIndex, offsetBy: characterIndex)]`
     ///
     /// These are equivalent:
@@ -141,31 +157,26 @@ public extension StringProtocol {
     ///
     /// These are equivalent:
     /// ```
-    /// let mySubstring: Substring?
-    /// if range.length >= 0,
-    ///     let range = Range(nsRange, in: myString)
-    /// {
-    ///     mySubstring = myString[range]
-    /// }
-    /// else {
-    ///     mySubstring = nil
-    /// }
-    /// ```
-    /// ```
-    /// let mySubstring = myString[nsRange]
+    /// myString[myString.index(myString.startIndex, offsetBy: nsRange.lowerBound) ..< myString.index(myString.startIndex, offsetBy: nsRange.upperBound)]
+    /// myString[nsRange]
     /// ```
     ///
     /// - Parameter range: A range of valid indices of characters in the string. `location` must be less than `count`
     ///                    (exclusive), and `length` must be less than `count` (inclusive). If `length` is longer than
     ///                    `count`, or if `location` pushes the upper bound outside this string, or if `length` is
-    ///                    negative, this returns `nil`.
+    ///                    negative, this crashes.
     /// - Returns: The characters at the given index-range in this string
     @inlinable
     @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
-    subscript(_ range: NSRange) -> SubSequence? {
-        return range.length < 0
-            ? nil
-            : Range(range, in: self).map { self[$0] }
+    subscript(_ range: NSRange) -> SubSequence {
+        return self[range.lowerBound ..< range.upperBound]
     }
 }
 #endif
+
+
+
+// MARK: - Conformance to RandomAccessCollection
+
+extension String: RandomAccessCollection {}
+extension Substring: RandomAccessCollection {}
