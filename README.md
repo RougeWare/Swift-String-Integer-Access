@@ -9,8 +9,29 @@ someString[someString.index(someString.startIndex, offsetBy: 2) ... someString.i
 to this:
 
 ```swift
+import StringIntegerAccess
+
 someString[2...5]
 ```
+
+
+## Safety ##
+
+If you prefer, you can also have the peace-of-mind that whatever integers you pass, it won't crash! Starting in version `1.3.0`, you can now use `[orNil:]` subscripts, which will return the same values as the regular ones, but if you give them out-of-range indices, they return `nil` instead of crashing: 
+
+```
+import SafeStringIntegerAccess
+
+let someString = "Hello, World!"
+
+someString[orNil: 3..<5] == "lo"
+someString[orNil: 3..<5] == someString[3..<5]
+someString[orNil: 42..<99] == nil 
+someString[orNil: -10 ..< -5] == nil 
+```
+
+Even better, this also implicitly imports `StringIntegerAccess`, so you don't have to double-up the imports!
+
 
 ## Performance ##
 
