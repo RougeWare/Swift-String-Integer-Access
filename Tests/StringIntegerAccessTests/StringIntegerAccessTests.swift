@@ -4,6 +4,7 @@ import StringIntegerAccess
 
 
 final class StringIntegerAccessTests: XCTestCase {
+    
     func testGetCharacterWithIntSubscript() {
         XCTAssertEqual("Hello, World!"[0], "H")
         XCTAssertEqual("Hello, World!"[1], "e")
@@ -12,6 +13,11 @@ final class StringIntegerAccessTests: XCTestCase {
         
         XCTAssertEqual("Hello 🇺🇸 America"[6], "🇺🇸")
         XCTAssertEqual("Faith 🛐 family 👨‍👨‍👦‍👦 and apple pie 🥧"[15], "👨‍👨‍👦‍👦")
+        
+        mutationTest { helloWorld in
+            helloWorld[5] = "!"
+            XCTAssertEqual(helloWorld, "Hello! World!")
+        }
     }
     
     
@@ -26,6 +32,11 @@ final class StringIntegerAccessTests: XCTestCase {
         XCTAssertEqual("Hello 🇺🇸 America"[0...14], "Hello 🇺🇸 America")
         XCTAssertEqual("Faith 🛐 family 👨‍👨‍👦‍👦 and apple pie 🥧"[8...25], "family 👨‍👨‍👦‍👦 and apple")
         XCTAssertEqual("Faith 🛐 family 👨‍👨‍👦‍👦 and apple pie 🥧"[0...31], "Faith 🛐 family 👨‍👨‍👦‍👦 and apple pie 🥧")
+        
+        mutationTest { helloWorld in
+            helloWorld[7...11] = "Mars"
+            XCTAssertEqual(helloWorld, "Hello, Mars!")
+        }
     }
     
     
@@ -41,6 +52,11 @@ final class StringIntegerAccessTests: XCTestCase {
         XCTAssertEqual("Hello 🇺🇸 America"[0..<15], "Hello 🇺🇸 America")
         XCTAssertEqual("Faith 🛐 family 👨‍👨‍👦‍👦 and apple pie 🥧"[8..<26], "family 👨‍👨‍👦‍👦 and apple")
         XCTAssertEqual("Faith 🛐 family 👨‍👨‍👦‍👦 and apple pie 🥧"[0..<32], "Faith 🛐 family 👨‍👨‍👦‍👦 and apple pie 🥧")
+        
+        mutationTest { helloWorld in
+            helloWorld[7..<12] = "Mars"
+            XCTAssertEqual(helloWorld, "Hello, Mars!")
+        }
     }
     
 
@@ -56,6 +72,11 @@ final class StringIntegerAccessTests: XCTestCase {
         XCTAssertEqual("Hello 🇺🇸 America"[0...], "Hello 🇺🇸 America")
         XCTAssertEqual("Faith 🛐 family 👨‍👨‍👦‍👦 and apple pie 🥧"[8...], "family 👨‍👨‍👦‍👦 and apple pie 🥧")
         XCTAssertEqual("Faith 🛐 family 👨‍👨‍👦‍👦 and apple pie 🥧"[0...], "Faith 🛐 family 👨‍👨‍👦‍👦 and apple pie 🥧")
+        
+        mutationTest { helloWorld in
+            helloWorld[7...] = "Mars!"
+            XCTAssertEqual(helloWorld, "Hello, Mars!")
+        }
     }
     
     
@@ -70,6 +91,11 @@ final class StringIntegerAccessTests: XCTestCase {
         XCTAssertEqual("Hello 🇺🇸 America"[..<15], "Hello 🇺🇸 America")
         XCTAssertEqual("Faith 🛐 family 👨‍👨‍👦‍👦 and apple pie 🥧"[..<26], "Faith 🛐 family 👨‍👨‍👦‍👦 and apple")
         XCTAssertEqual("Faith 🛐 family 👨‍👨‍👦‍👦 and apple pie 🥧"[..<32], "Faith 🛐 family 👨‍👨‍👦‍👦 and apple pie 🥧")
+        
+        mutationTest { helloWorld in
+            helloWorld[..<5] = "Wassup"
+            XCTAssertEqual(helloWorld, "Wassup, World!")
+        }
     }
     
     
@@ -80,6 +106,11 @@ final class StringIntegerAccessTests: XCTestCase {
         XCTAssertEqual("Hello, World!"[...12], "Hello, World!")
         XCTAssertEqual("Faith 🛐 family 👨‍👨‍👦‍👦 and apple pie 🥧"[...25], "Faith 🛐 family 👨‍👨‍👦‍👦 and apple")
         XCTAssertEqual("Faith 🛐 family 👨‍👨‍👦‍👦 and apple pie 🥧"[...31], "Faith 🛐 family 👨‍👨‍👦‍👦 and apple pie 🥧")
+        
+        mutationTest { helloWorld in
+            helloWorld[...4] = "Hey"
+            XCTAssertEqual(helloWorld, "Hey, World!")
+        }
     }
     
     
@@ -97,6 +128,11 @@ final class StringIntegerAccessTests: XCTestCase {
         XCTAssertEqual("Hello 🇺🇸 America"[NSRange(location: 0, length: 15)], "Hello 🇺🇸 America")
         XCTAssertEqual("Faith 🛐 family 👨‍👨‍👦‍👦 and apple pie 🥧"[NSRange(location: 8, length: 18)], "family 👨‍👨‍👦‍👦 and apple")
         XCTAssertEqual("Faith 🛐 family 👨‍👨‍👦‍👦 and apple pie 🥧"[NSRange(location: 0, length: 32)], "Faith 🛐 family 👨‍👨‍👦‍👦 and apple pie 🥧")
+        
+        mutationTest { helloWorld in
+            helloWorld[NSRange(location: 7, length: 5)] = "Mars"
+            XCTAssertEqual(helloWorld, "Hello, Mars!")
+        }
     }
     
 
@@ -110,4 +146,13 @@ final class StringIntegerAccessTests: XCTestCase {
         ("testGetSubstringWithIntPartialRangeUpThroughSubscript", testGetSubstringWithIntPartialRangeUpThroughSubscript),
         ("testGetSubstringWithNSRangeSubscript", testGetSubstringWithNSRangeSubscript),
     ]
+}
+
+
+
+internal let helloWorld = "Hello, World!"
+
+internal func mutationTest(do test: (inout String) -> Void) {
+    var copy = helloWorld
+    test(&copy)
 }
