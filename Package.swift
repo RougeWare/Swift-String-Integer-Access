@@ -18,7 +18,8 @@ let package = Package(
     
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(name: "SafeCollectionAccess", url: "https://github.com/RougeWare/Swift-Safe-Collection-Access.git", from: "2.1.0")
+        .package(name: "SafeCollectionAccess", url: "https://github.com/RougeWare/Swift-Safe-Collection-Access.git", from: "2.2.1"),
+        .package(name: "RangeTools", url: "https://github.com/RougeWare/Swift-Range-Tools.git", from: "1.2.0"),
     ],
     
     targets: [
@@ -27,14 +28,14 @@ let package = Package(
         
         .target(
             name: "SafeStringIntegerAccess",
-            dependencies: ["StringIntegerAccess", "SafeCollectionAccess"]),
+            dependencies: ["StringIntegerAccess", "SafeCollectionAccess", "RangeTools"]),
         .testTarget(
             name: "SafeStringIntegerAccessTests",
             dependencies: ["SafeStringIntegerAccess"]),
         
         .target(
             name: "StringIntegerAccess",
-            dependencies: []),
+            dependencies: ["RangeTools"]),
         .testTarget(
             name: "StringIntegerAccessTests",
             dependencies: ["StringIntegerAccess"]),
